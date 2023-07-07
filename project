@@ -1,0 +1,36 @@
+N = 8
+def is_valid(a, b, sol):
+    if(0 <= a < 8 and 0 <= b < 8):
+      if(sol[a][b] == -1):
+        return True
+    return False
+def KTM(sol, a, b, move_a, move_b, pos):
+    if pos == 64:
+        return True
+
+    for i in range(8):
+        new_a = a + move_a[i]
+        new_b = b + move_b[i]
+
+        if is_valid(new_a, new_b, sol):
+            sol[new_a][new_b] = pos
+            if KTM(sol, new_a, new_b, move_a, move_b, pos+1):
+                return True
+            sol[new_a][new_b] = -1
+
+    return False
+def KnightTour(N):
+    sol = [[-1 for a in range(8)] for b in range(8)]
+    move_a = [2, 1, -1, -2, -2, -1, 1, 2]
+    move_b = [1, 2, 2, 1, -1, -2, -2, -1]
+    sol[0][0] = 0
+    pos = 1
+    if not KTM(sol, 0, 0, move_a, move_b, pos):
+        print("Solution does not exist")
+    else:
+        for i in range(8):
+            for j in range(8):
+                print(sol[i][j], end=" ")
+            print()
+
+KnightTour(N)
